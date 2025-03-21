@@ -1,0 +1,27 @@
+name: test_gira
+on:
+   issues:
+    types:
+      - opened
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    name: Syssec-project
+    steps:
+    - name: Login
+      uses: atlassian/gajira-login@master
+      env:
+        JIRA_BASE_URL: ${{ secrets.JIRA_BASE_URL }}
+        JIRA_USER_EMAIL: ${{ secrets.JIRA_USER_EMAIL }}
+        JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
+
+    - name: Jira issue
+      uses: atlassian/gajira-create@v2.0.0
+      with:
+        project: C21T
+        issuetype: Task
+        summary: |
+          ${{ github.event.issue.title }}
+        description: |
+          ${{ github.event.issue.body }}
